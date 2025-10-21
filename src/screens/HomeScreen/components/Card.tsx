@@ -1,10 +1,17 @@
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { IItemSchema } from '../../../globalTypes/globalTypes';
 import { colors } from '../../../theme/colors';
 import { cardStyles } from '../HomesScreen.styles';
+import { hexToRgba } from '../../../utils/hexToRgba.utility';
 
 const Card = ({
   item,
@@ -14,11 +21,17 @@ const Card = ({
   deleteHandler: (id: number) => void;
 }) => {
   const navigation = useNavigation<any>();
+  const mode = useColorScheme();
+  const isDarkMode = mode === 'dark';
   return (
-    <View style={cardStyles.container}>
+    <View
+      style={[
+        cardStyles.container,
+        isDarkMode && { backgroundColor: colors.tertiary },
+      ]}
+    >
       <View style={cardStyles.textContainer}>
         <Text style={cardStyles.textTitle}>{item.title}</Text>
-
         <Text style={cardStyles.textDescription}>{item.description}</Text>
       </View>
 

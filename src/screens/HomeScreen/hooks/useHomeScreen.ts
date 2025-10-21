@@ -31,11 +31,13 @@ const useHomeScreen = ({ editId }: { editId?: number }) => {
   const addEditHandler = (dataObj: IItemSchema) => {
     if (editId) {
       const editedData = data?.map((item: IItemSchema) => {
-        if (item.id === editId) {
-          item.title = dataObj?.title;
-          item.description = dataObj?.description;
-        }
-        return item;
+        return item.id === editId
+          ? {
+              ...item,
+              title: dataObj?.title,
+              description: dataObj?.description,
+            }
+          : item;
       });
       storeData(editedData);
       Toast.show({
