@@ -1,18 +1,35 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { homesScreenStyles } from './HomesScreen.styles';
+import React, { useEffect } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import CustomButton from '../../components/Buttons/CustomButton';
+import Wrapper from '../../components/Wrappers/Wrapper';
+import { widthScale } from '../../utils/scales.utility';
+import Card from './components/Card';
+import useHomeScreen from './hooks/useHomeScreen';
+import { homeScreenStyles } from './HomesScreen.styles';
 
 const HomesScreen = ({ navigation }: any) => {
-  // const navigation = useNavigation();
+  const {
+    states: { data },
+    functions: { getData, deleteHandler },
+  } = useHomeScreen({});
+  useEffect(() => {
+    getData();
+  }, []);
   return (
-    <View style={homesScreenStyles.mainContainer}>
-      <Pressable
-        style={homesScreenStyles.addPressable}
+    <Wrapper>
+      <CustomButton
+        text="Add Note"
         onPress={() => navigation.navigate('AddEditNote')}
-      >
-        <Text style={homesScreenStyles.addPressableText}>Add Note</Text>
-      </Pressable>
-    </View>
+      />
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <Card item={item} deleteHandler={deleteHandler} />
+        )}
+        keyExtractor={item => String(item?.id)}
+        contentContainerStyle={homeScreenStyles.contentContainerStyle}
+      />
+    </Wrapper>
   );
 };
 
