@@ -11,7 +11,6 @@ import {
 import { IItemSchema } from '../../../globalTypes/globalTypes';
 import { colors } from '../../../theme/colors';
 import { cardStyles } from '../HomesScreen.styles';
-import { hexToRgba } from '../../../utils/hexToRgba.utility';
 
 const Card = ({
   item,

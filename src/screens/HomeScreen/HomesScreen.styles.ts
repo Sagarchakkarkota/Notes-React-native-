@@ -30,4 +30,17 @@ export const cardStyles = StyleSheet.create({
 
 export const homeScreenStyles = StyleSheet.create({
   contentContainerStyle: { padding: widthScale(12), gap: widthScale(8) },
+  loadingContainer: {
+    height: widthScale(200),
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    color: colors.gray,
+    fontSize: widthScale(26),
+    fontWeight: '600',
+    textAlign: 'center',
+    margin: widthScale(40),
+  },
 });

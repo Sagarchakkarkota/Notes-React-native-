@@ -3,28 +3,37 @@ import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { IItemSchema } from '../../../globalTypes/globalTypes';
 import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 const useHomeScreen = ({ editId }: { editId?: number }) => {
   const [data, setData] = useState<IItemSchema[]>([]);
+  const [filteredData, setFilteredData] = useState<IItemSchema[]>([]);
   const navigation = useNavigation<any>();
+  const [isLoading, setLoading] = useState(false);
+  const [isPending, setPending] = useState(false);
   const getData = async () => {
+    setLoading(true);
     try {
       const res = await AsyncStorage.getItem('data');
       const pasedData = res ? JSON.parse(res) : [];
       setData(pasedData);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const storeData = async (data: any) => {
+    setPending(true);
     try {
       await AsyncStorage.setItem('data', JSON.stringify(data));
-      getData();
       setData(data);
       navigation.navigate('Home');
     } catch (e) {
       // saving error
+    } finally {
+      setPending(false);
     }
   };
 
@@ -63,17 +72,38 @@ const useHomeScreen = ({ editId }: { editId?: number }) => {
     const filteredData = data?.filter((item: IItemSchema) => {
       return item?.id !== id;
     });
-    storeData(filteredData);
-    Toast.show({
-      type: 'success',
-      text1: 'Note deleted successfully',
-      position: 'top',
-      visibilityTime: 2000,
-    });
+    Alert.alert(
+      'Do you want to delete this note ?',
+      'you cannot undo this item',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            storeData(filteredData);
+            Toast.show({
+              type: 'success',
+              text1: 'Note deleted successfully',
+              position: 'top',
+              visibilityTime: 2000,
+            });
+          },
+        },
+      ],
+    );
   };
   return {
     states: {
+      isLoading,
+      isPending,
       data,
+      setData,
+      filteredData,
+      setFilteredData,
     },
     functions: { addEditHandler, getData, deleteHandler },
   };

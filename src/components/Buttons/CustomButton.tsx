@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -18,6 +19,7 @@ interface CustomButtonProps {
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
   type?: 'pressable' | 'touchableOpacity';
+  loading?: boolean;
 }
 const CustomButton = ({
   style,
@@ -26,6 +28,7 @@ const CustomButton = ({
   textStyle,
   disabled = false,
   type = 'pressable',
+  loading = false,
 }: CustomButtonProps) => {
   const ButtonComponent =
     type === 'touchableOpacity' ? TouchableOpacity : Pressable;
@@ -36,7 +39,11 @@ const CustomButton = ({
       disabled={disabled}
       {...(type === 'touchableOpacity' ? { activeOpacity: 0.7 } : {})}
     >
-      <Text style={[styles.buttonText, textStyle]}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator size="small" color={colors.background} />
+      ) : (
+        <Text style={[styles.buttonText, textStyle]}>{text}</Text>
+      )}
     </ButtonComponent>
   );
 };
@@ -46,7 +53,6 @@ export default CustomButton;
 export const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
-    width: '100%',
     paddingVertical: widthScale(8),
     justifyContent: 'center',
     alignItems: 'center',
