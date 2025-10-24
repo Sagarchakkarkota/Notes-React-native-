@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { widthScale } from '../../utils/scales.utility';
 import { colors } from '../../theme/colors';
 import { hexToRgba } from '../../utils/hexToRgba.utility';
+import { Typography } from '../../theme/typography';
 
 export const cardStyles = StyleSheet.create({
   container: {
@@ -13,8 +14,8 @@ export const cardStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  textTitle: { fontSize: widthScale(14), fontWeight: '600' },
-  textDescription: { fontSize: widthScale(14), fontWeight: '400' },
+  textTitle: { fontSize: Typography.medium, fontWeight: '600' },
+  textDescription: { fontSize: Typography.medium, fontWeight: '400' },
   textContainer: { width: '75%' },
   iconsContainer: {
     flexDirection: 'row',
@@ -38,7 +39,7 @@ export const homeScreenStyles = StyleSheet.create({
   },
   emptyText: {
     color: colors.gray,
-    fontSize: widthScale(26),
+    fontSize: Typography.heading1,
     fontWeight: '600',
     textAlign: 'center',
     margin: widthScale(40),

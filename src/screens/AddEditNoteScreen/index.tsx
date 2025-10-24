@@ -79,7 +79,6 @@ const AddEditNoteScreen = ({ route }: { route: any }) => {
           }}
           value={title}
           placeholder="Enter title"
-          // placeholderTextColor={textColor}
         />
         {titleError && (
           <Text style={{ color: colors.error, marginTop: widthScale(4) }}>
@@ -103,7 +102,6 @@ const AddEditNoteScreen = ({ route }: { route: any }) => {
           }}
           value={description}
           placeholder="Enter description"
-          // placeholderTextColor={textColor}
         />
         {descriptionError && (
           <Text style={{ color: colors.error, marginTop: widthScale(4) }}>

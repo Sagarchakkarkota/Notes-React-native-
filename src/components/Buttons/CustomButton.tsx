@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { widthScale } from '../../utils/scales.utility';
+import { Typography } from '../../theme/typography';
 
 interface CustomButtonProps {
   text: string;
@@ -61,7 +62,7 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: colors.background,
     fontWeight: '600',
-    fontSize: widthScale(14),
+    fontSize: Typography.medium,
   },
   disabled: { opacity: 0.5 },
 });

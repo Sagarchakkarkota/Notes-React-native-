@@ -72,30 +72,27 @@ const useHomeScreen = ({ editId }: { editId?: number }) => {
     const filteredData = data?.filter((item: IItemSchema) => {
       return item?.id !== id;
     });
-    Alert.alert(
-      'Do you want to delete this note ?',
-      'you cannot undo this item',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+    Alert.alert('Delete Note', 'Are you sure you want to delete this note?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          storeData(filteredData);
+          Toast.show({
+            type: 'success',
+            text1: 'Note deleted successfully',
+            position: 'top',
+            visibilityTime: 2000,
+          });
         },
-        {
-          text: 'OK',
-          onPress: () => {
-            storeData(filteredData);
-            Toast.show({
-              type: 'success',
-              text1: 'Note deleted successfully',
-              position: 'top',
-              visibilityTime: 2000,
-            });
-          },
-        },
-      ],
-    );
+      },
+    ]);
   };
+
   return {
     states: {
       isLoading,

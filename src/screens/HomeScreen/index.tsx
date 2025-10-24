@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
-  Button,
   FlatList,
   StyleSheet,
   Text,
@@ -14,7 +13,7 @@ import { colors } from '../../theme/colors';
 import Card from './components/Card';
 import { homeScreenStyles } from './HomesScreen.styles';
 import useHomeScreen from './hooks/useHomeScreen';
-import { widthScale } from '../../utils/scales.utility';
+import useDebounce from '../../hooks/useDebounce';
 
 const HomesScreen = ({ navigation }: any) => {
   const {
@@ -24,14 +23,21 @@ const HomesScreen = ({ navigation }: any) => {
   useEffect(() => {
     getData();
   }, []);
+  const { setFIlterValue, debounceValue } = useDebounce({});
   const mode = useColorScheme();
   const isDarkMode = mode === 'dark';
   const handleSearchValue = (value: string) => {
+    setFIlterValue(value);
+  };
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
     const filteredData = data?.filter(item =>
-      item.title.toLocaleLowerCase().includes(value.toLowerCase()),
+      item.title.toLocaleLowerCase().includes(debounceValue.toLowerCase()),
     );
     setFilteredData(filteredData);
-  };
+  }, [debounceValue]);
   const notesData = filteredData?.length ? filteredData : data;
   return (
     <Wrapper
@@ -53,6 +59,8 @@ const HomesScreen = ({ navigation }: any) => {
       ) : (
         <FlatList
           data={notesData}
+          onRefresh={getData}
+          refreshing={isLoading}
           renderItem={({ item }) => (
             <Card item={item} deleteHandler={deleteHandler} />
           )}
