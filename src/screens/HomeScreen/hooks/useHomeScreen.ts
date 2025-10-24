@@ -29,7 +29,10 @@ const useHomeScreen = ({ editId }: { editId?: number }) => {
     try {
       await AsyncStorage.setItem('data', JSON.stringify(data));
       setData(data);
-      navigation.navigate('Home');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
     } catch (e) {
       // saving error
     } finally {

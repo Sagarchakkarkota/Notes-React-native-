@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -14,15 +14,26 @@ import Card from './components/Card';
 import { homeScreenStyles } from './HomesScreen.styles';
 import useHomeScreen from './hooks/useHomeScreen';
 import useDebounce from '../../hooks/useDebounce';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomesScreen = ({ navigation }: any) => {
   const {
     states: { data, isLoading, filteredData, setFilteredData },
     functions: { getData, deleteHandler },
   } = useHomeScreen({});
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getData(); // screen focus hone par data reload
+
+      return () => {
+        // cleanup if needed
+        setFilteredData([]);
+      };
+    }, []),
+  );
   const { setFIlterValue, debounceValue } = useDebounce({});
   const mode = useColorScheme();
   const isDarkMode = mode === 'dark';
