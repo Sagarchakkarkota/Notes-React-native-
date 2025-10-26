@@ -1,4 +1,3 @@
-// src/components/Navbar/Navbar.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -26,14 +25,12 @@ const Navbar = ({ showSearch = true, handleSearchValue }: NavbarProps) => {
         { backgroundColor: isDarkMode ? colors.tertiary : colors.primary },
       ]}
     >
-      {/* Logo on the left */}
       <Image
-        source={require('../../assets/notes.png')} // replace with your logo
+        source={require('../../assets/notes.png')}
         style={styles.logo}
         resizeMode="contain"
       />
 
-      {/* Search bar */}
       {showSearch && (
         <TextInput
           onChangeText={value => handleSearchValue?.(value)}

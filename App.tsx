@@ -1,25 +1,31 @@
 import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import Navigator from './src/navigation/Navigator';
-import Toast from 'react-native-toast-message';
+import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
+import Navigator from './src/navigation/Navigator';
+import { colors } from './src/theme/colors';
 
 const App = () => {
   const mode = useColorScheme();
   const isDarkMode = mode === 'dark';
   return (
     <>
+      <View
+        style={{
+          backgroundColor: isDarkMode ? colors.tertiary : colors.primary,
+          height: StatusBar.currentHeight,
+        }}
+      />
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={isDarkMode ? '#000' : '#fff'}
-        translucent={false}
+        translucent
+        barStyle={'light-content'}
+        animated
+        backgroundColor={'transparent'}
       />
       <SafeAreaProvider>
         <NavigationContainer>
